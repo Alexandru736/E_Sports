@@ -1,3 +1,5 @@
+import 'package:e_sports/models/cities.dart';
+import 'package:e_sports/models/user.dart';
 import 'package:e_sports/pages/register_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,17 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
+
+  Future<User> _futureUser;
+  String userId;
+  TextEditingController _emailController = new TextEditingController();
+  TextEditingController _passwordController = new TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   static Widget title(String s1, String s2) {
     return RichText(
       textAlign: TextAlign.center,
@@ -28,7 +41,7 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  static Widget email(BuildContext context) {
+  Widget email(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width / 1.2,
         height: 45,
@@ -38,6 +51,7 @@ class LoginPageState extends State<LoginPage> {
             color: Colors.white,
             boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5)]),
         child: TextField(
+          controller: _emailController,
           decoration: InputDecoration(
             border: InputBorder.none,
             icon: Icon(
@@ -52,8 +66,13 @@ class LoginPageState extends State<LoginPage> {
   Widget loginButton() {
     return InkWell(
       onTap : () async {
+        // TODO: Endpoint disabled
+        // _futureUser = User.loginUser(User.post("", _emailController.text));
+        // setState(() {
+        //   _futureUser.then((user) => userId = user.id);
+        // });
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
+            context, MaterialPageRoute(builder: (context) => HomePage(Cities.list_of_cities)));
       },
       child: Container(
         width: 200,
@@ -77,7 +96,7 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  static Widget password(BuildContext context) {
+  Widget password(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width / 1.2,
       height: 45,
@@ -87,6 +106,7 @@ class LoginPageState extends State<LoginPage> {
           color: Colors.white,
           boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5)]),
       child: TextField(
+        controller: _passwordController,
         obscureText: true,
         decoration: InputDecoration(
           border: InputBorder.none,

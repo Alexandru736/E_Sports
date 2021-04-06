@@ -1,15 +1,21 @@
+import 'package:e_sports/models/cities.dart';
+import 'package:e_sports/models/user.dart';
 import 'package:e_sports/pages/home_page.dart';
 import 'package:e_sports/pages/login_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterPage extends StatefulWidget {
   @override
   _RegisterPageState createState() => _RegisterPageState();
+
 }
 
 class _RegisterPageState extends State<RegisterPage> {
 
+  Future<User> _futureUser;
+  String userId;
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
   TextEditingController _nameController = new TextEditingController();
@@ -17,6 +23,11 @@ class _RegisterPageState extends State<RegisterPage> {
   String _password;
   String _displayName;
 
+  @override
+  void initState() {
+    super.initState();
+    _futureUser = User.createUser(User.post(_nameController.text, _emailController.text));
+  }
   Widget input(Icon icon, String hint, TextEditingController controller) {
     return Container(
       padding: EdgeInsets.only(left: 20, right: 20),
@@ -56,8 +67,11 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget registerButton() {
     return InkWell(
       onTap : () async {
+        setState(() {
+          _futureUser.then((user) => userId = user.id);
+        });
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
+            context, MaterialPageRoute(builder: (context) => HomePage(null)));
       },
       child: Container(
         width: 200,
@@ -106,26 +120,28 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         backgroundColor: Color(0xff4D5EBD),
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 70,),
-            LoginPageState.title("Sign", "Up"),
-            SizedBox(height: 70,),
-            input(Icon(Icons.account_circle),
-                "Display Name", _nameController),
-            SizedBox(height: 10),
-            input(Icon(Icons.email),
-                "Email", _emailController),
-            SizedBox(height: 10),
-            input(Icon(Icons.lock),
-                "Password", _passwordController),
-            SizedBox(height: 50),
-            registerButton(),
-            SizedBox(height: 50),
-            alreadyAccount()
-          ],
-        )
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 70,),
+              LoginPageState.title("Sign", "Up"),
+              SizedBox(height: 70,),
+              input(Icon(Icons.account_circle),
+                  "Display Name", _nameController),
+              SizedBox(height: 10),
+              input(Icon(Icons.email),
+                  "Email", _emailController),
+              SizedBox(height: 10),
+              input(Icon(Icons.lock),
+                  "Password", _passwordController),
+              SizedBox(height: 50),
+              registerButton(),
+              SizedBox(height: 50),
+              alreadyAccount()
+            ],
+          )
+        ),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:e_sports/models/cities.dart';
 import 'package:e_sports/pages/home_page.dart';
 import 'package:e_sports/pages/login_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +12,6 @@ class Wrapper extends StatelessWidget {
     if(user == null)
       return LoginPage();
     else
-      return HomePage();
+      return HomePage(null);
   }
 }
