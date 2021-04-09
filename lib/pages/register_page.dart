@@ -71,7 +71,7 @@ class _RegisterPageState extends State<RegisterPage> {
           _futureUser.then((user) => userId = user.id);
         });
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomePage(null)));
+            context, MaterialPageRoute(builder: (context) => HomePage([])));
       },
       child: Container(
         width: 200,
